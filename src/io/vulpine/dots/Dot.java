@@ -1,6 +1,7 @@
 package io.vulpine.dots;
 
 import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Random;
 
@@ -15,14 +16,16 @@ public class Dot
   protected final double speed;
   protected final double opacity;
 
+  protected static double hue = 63;
+  protected static double saturation = 0.5;
+  protected static int brightness = 1;
+  protected static double mod = 0.2;
+
   public Dot()
   {
-    final Point2D end;
-    final int r = (int) randomDouble(0, 3);
-
     start = new Point2D(randomDouble(0, Application.MAX_X), randomDouble(0, Application.MAX_Y));
     speed = randomDouble(0.2, 1.5);
-    opacity = randomDouble(0.2, 1);
+    opacity = randomDouble(0.3, 1);
 
     back  = randomDouble(-10, 10) < 0;
 
@@ -35,10 +38,32 @@ public class Dot
   public void step()
   {
     final double x, y;
+
     x = Math.sin(angle) * speed;
     y = Math.cos(angle) * speed;
 
     current = back ? current.subtract(x, y) : current.add(x, y);
+  }
+
+  public static void stepColor()
+  {
+    //hue += mod;
+    if (hue >= 360) hue = 0;
+  }
+
+  public static double getHue()
+  {
+    return hue;
+  }
+
+  public static double getSaturation()
+  {
+    return saturation;
+  }
+
+  public static int getBrightness()
+  {
+    return brightness;
   }
 
   public Point2D getCurrent()

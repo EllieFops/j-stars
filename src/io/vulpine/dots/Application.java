@@ -10,6 +10,8 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import static java.lang.Math.abs;
+
 public class Application extends javafx.application.Application
 {
   public static final int MAX_X           = 1920;
@@ -28,8 +30,8 @@ public class Application extends javafx.application.Application
   public void start( final Stage stage ) throws Exception
   {
     final Canvas          canvas1, canvas2;
-    final Star[]           stars;
-    final GraphicsContext gc;
+    final Star[]          stars;
+    final GraphicsContext con1, con2;
     final Group           g;
     final Scene           s;
     final AnimationTimer timer;
@@ -39,11 +41,10 @@ public class Application extends javafx.application.Application
     stars   = new Star[DOT_COUNT];
     canvas1 = new Canvas(MAX_X, MAX_Y);
     canvas2 = new Canvas(MAX_X, MAX_Y);
-    gc      = canvas1.getGraphicsContext2D();
+    con1    = canvas1.getGraphicsContext2D();
+    con2    = canvas2.getGraphicsContext2D();
 
-    gc.setGlobalBlendMode(BlendMode.SRC_OVER);
-    canvas2.getGraphicsContext2D().setFill(Color.BLACK);
-    canvas2.getGraphicsContext2D().fillRect(0, 0, MAX_X, MAX_Y);
+    con1.setGlobalBlendMode(BlendMode.SRC_OVER);
 
     g = new Group(canvas2);
     g.getChildren().add(canvas1);
@@ -62,7 +63,13 @@ public class Application extends javafx.application.Application
       @Override
       public void handle( final long now )
       {
-        gc.clearRect(0, 0, MAX_X, MAX_Y);
+        con1.clearRect(0, 0, MAX_X, MAX_Y);
+
+        Star.stepColor();
+
+        con2.setFill(Color.hsb(Star.getHue()+180, Star.getSaturation(), Star.getBrightness()));
+
+        con2.fillRect(0, 0, MAX_X, MAX_Y);
 
         // Position
         for (int i = 0; i < DOT_COUNT; i++) {
@@ -87,14 +94,12 @@ public class Application extends javafx.application.Application
           final double  cx, cy;
           int connections = 0;
 
-          gc.setGlobalAlpha(d.getOpacity());
-          gc.setFill(Color.RED);
+          con1.setGlobalAlpha(d.getOpacity());
 
           cur = d.getCurrent();
           cx = cur.getX();
           cy = cur.getY();
 
-          gc.setStroke(Color.DARKRED);
           for (final Star e : stars) {
             final Point2D sub;
             final double  sx, sy;
@@ -104,13 +109,13 @@ public class Application extends javafx.application.Application
             sy = sub.getY();
 
             if (cur.distance(sub) <= MAX_LINE_LENGTH) {
-              gc.strokeLine(cx, cy, sx, sy);
+              con1.strokeLine(cx, cy, sx, sy);
               connections++;
               if (connections >=  MAX_CONNECTIONS) break;
             }
           }
 
-          d.drawStar(gc);
+          d.drawStar(con1);
         }
       }
     };

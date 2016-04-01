@@ -1,6 +1,7 @@
 package io.vulpine.dots;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -30,7 +31,7 @@ public class Star extends Dot
     super();
     rotationSpeed = randomDouble(0.005, 0.05);
 
-    outerDistance = randomDouble(5, 8);
+    outerDistance = randomDouble(5, 9);
     innerDistance = (outerDistance /5)*2;
     rotationDirection = rand.nextBoolean();
   }
@@ -53,9 +54,14 @@ public class Star extends Dot
   {
     final double cx, cy;
     final double[] x, y;
+    final Color color;
 
     cx = current.getX();
     cy = current.getY();
+
+    color = Color.hsb(hue, saturation, brightness);
+    gc.setFill(color);
+    gc.setStroke(color);
 
     x = new double[] {
       cos(OUTER_TOP_CENTER + rotation) * outerDistance + cx,
