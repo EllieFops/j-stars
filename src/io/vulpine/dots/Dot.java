@@ -50,4 +50,12 @@ public class Dot
   {
     return opacity;
   }
+
+  public Point2D getPointFromCenter(double rad, double dist)
+  {
+    return current.add(
+      dist*Math.cos(rad),
+      dist*Math.sin(rad)
+    );
+  }
 }

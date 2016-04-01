@@ -29,7 +29,7 @@ public class Application extends javafx.application.Application
   public void start( final Stage stage ) throws Exception
   {
     final Canvas          canvas1, canvas2;
-    final Dot[]           dots;
+    final Star[]           dots;
     final GraphicsContext gc;
     final Group           g;
     final Scene           s;
@@ -37,7 +37,7 @@ public class Application extends javafx.application.Application
 
     stage.setTitle("Dots");
 
-    dots = new Dot[DOT_COUNT];
+    dots = new Star[DOT_COUNT];
     canvas1 = new Canvas(MAX_X, MAX_Y);
     canvas2 = new Canvas(MAX_X, MAX_Y);
     gc = canvas1.getGraphicsContext2D();
@@ -55,7 +55,7 @@ public class Application extends javafx.application.Application
     stage.show();
 
     for (int i = 0; i < DOT_COUNT; i++) {
-      dots[i] = new Dot();
+      dots[i] = new Star();
     }
 
     timer = new AnimationTimer() {
@@ -77,12 +77,12 @@ public class Application extends javafx.application.Application
           y = cur.getY();
 
           if (x > MAX_X || x < 0 || y > MAX_Y || y < 0) {
-            dots[i] = new Dot();
+            dots[i] = new Star();
           }
         }
 
         // Render
-        for (Dot d : dots) {
+        for (Star d : dots) {
           final Point2D cur;
           final double  cx, cy;
           int connections = 0;
@@ -94,10 +94,8 @@ public class Application extends javafx.application.Application
           cx = cur.getX();
           cy = cur.getY();
 
-          gc.fillOval(cur.getX() - (DOT_WIDTH /2), cur.getY() - (DOT_WIDTH /2), DOT_WIDTH, DOT_WIDTH);
-
           gc.setStroke(Color.DARKRED);
-          for (final Dot e : dots) {
+          for (final Star e : dots) {
             final Point2D sub;
             final double  sx, sy;
 
@@ -111,6 +109,8 @@ public class Application extends javafx.application.Application
               if (connections >=  MAX_CONNECTIONS) break;
             }
           }
+
+          d.drawStar(gc);
         }
       }
     };
