@@ -2,7 +2,6 @@ package io.vulpine.dots;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import static io.vulpine.dots.Application.*;
 import static java.lang.Math.sqrt;
@@ -10,13 +9,11 @@ import static java.lang.Math.sqrt;
 public class StarTimer extends AnimationTimer
 {
   private final GraphicsContext topLayer;
-  private final GraphicsContext bottomLayer;
   private final Star[]          stars;
 
-  public StarTimer( final GraphicsContext con1, final GraphicsContext con2, final Star[] stars )
+  public StarTimer( final GraphicsContext con1, final Star[] stars )
   {
     this.topLayer = con1;
-    this.bottomLayer = con2;
     this.stars = stars;
   }
 
@@ -24,8 +21,6 @@ public class StarTimer extends AnimationTimer
   public void handle( final long now )
   {
     topLayer.clearRect(0, 0, MAX_X, MAX_Y);
-    bottomLayer.setFill(Color.hsb(Star.getHue()+180, Star.getSaturation(), Star.getBrightness()));
-    bottomLayer.fillRect(0, 0, MAX_X, MAX_Y);
 
     // Position
     for (int i = 0; i < DOT_COUNT; i++) {

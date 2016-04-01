@@ -1,16 +1,14 @@
 package io.vulpine.dots;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 public class Star extends Dot
 {
-  public final double outerDistance;
-  public final double innerDistance;
-
+  // The names of these are misleading; Due to the inversion of the Y axis on
+  // the canvas, the 'top' renders as the bottom.
   public static final double OUTER_TOP_CENTER    = 1.570796;
   public static final double OUTER_TOP_LEFT      = 2.827433;
   public static final double OUTER_TOP_RIGHT     = 0.314159;
@@ -22,9 +20,30 @@ public class Star extends Dot
   public static final double INNER_BOTTOM_RIGHT  = 5.959022;
   public static final double INNER_BOTTOM_CENTER = 4.712385;
 
-  private double rotation = 0;
+  /**
+   * Distance from the center to the outer points of the star
+   */
+  private final double outerDistance;
+
+  /**
+   * Distance from the center to the inner points of the star
+   */
+  private final double innerDistance;
+
+  /**
+   * Rotation speed modifier
+   */
   private final double rotationSpeed;
+
+  /**
+   * True = clockwise, False = counterclockwise
+   */
   private final boolean rotationDirection;
+
+  /**
+   * Rotation index
+   */
+  private double rotation = 0;
 
   public Star()
   {
@@ -53,11 +72,9 @@ public class Star extends Dot
   public void drawStar(GraphicsContext gc)
   {
     final double[] x, y;
-    final Color color;
 
-    color = Color.hsb(hue, saturation, brightness);
-    gc.setFill(color);
-    gc.setStroke(color);
+    gc.setFill(hue);
+    gc.setStroke(hue);
 
     x = new double[] {
       cos(OUTER_TOP_CENTER + rotation) * outerDistance + posX,

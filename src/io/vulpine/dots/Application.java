@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Application extends javafx.application.Application
@@ -30,7 +31,7 @@ public class Application extends javafx.application.Application
     final GraphicsContext con1, con2;
     final Group           group;
     final Scene           scene;
-    final AnimationTimer timer;
+    final AnimationTimer  timer;
 
     stage.setTitle("Stars");
 
@@ -39,8 +40,6 @@ public class Application extends javafx.application.Application
     canvas2 = new Canvas(MAX_X, MAX_Y);
     con1    = canvas1.getGraphicsContext2D();
     con2    = canvas2.getGraphicsContext2D();
-
-    con1.setGlobalBlendMode(BlendMode.SRC_OVER);
 
     group = new Group(canvas2);
     scene = new Scene(group);
@@ -54,7 +53,12 @@ public class Application extends javafx.application.Application
 
     for (int i = 0; i < DOT_COUNT; i++) stars[i] = new Star();
 
-    timer = new StarTimer(con1, con2, stars);
+    con1.setGlobalBlendMode(BlendMode.SRC_OVER);
+
+    con2.setFill(Color.hsb(243, 0.5, 1));
+    con2.fillRect(0, 0, MAX_X, MAX_Y);
+
+    timer = new StarTimer(con1, stars);
     timer.start();
   }
 }
