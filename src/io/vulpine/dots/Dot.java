@@ -1,16 +1,13 @@
 package io.vulpine.dots;
 
-import javafx.geometry.Point2D;
-import javafx.scene.canvas.GraphicsContext;
-
 import java.util.Random;
 
 public class Dot
 {
   protected final static Random rand = new Random();
 
-  protected Point2D current;
-  protected final Point2D start;
+  protected double posX;
+  protected double posY;
   protected final double angle;
   protected final boolean back;
   protected final double speed;
@@ -19,17 +16,17 @@ public class Dot
   protected static double hue = 63;
   protected static double saturation = 0.5;
   protected static int brightness = 1;
-  protected static double mod = 0.2;
 
   public Dot()
   {
-    start = new Point2D(randomDouble(0, Application.MAX_X), randomDouble(0, Application.MAX_Y));
+    posX = randomDouble(0, Application.MAX_X);
+    posY = randomDouble(0, Application.MAX_Y);
+
     speed = randomDouble(0.2, 1.5);
     opacity = randomDouble(0.3, 1);
 
     back  = randomDouble(-10, 10) < 0;
 
-    current = new Point2D(start.getX(), start.getY());
     angle   = randomDouble(0, 3.14);
   }
 
@@ -37,12 +34,14 @@ public class Dot
 
   public void step()
   {
-    final double x, y;
+    if (back) {
+      posX -= Math.sin(angle) * speed;
+      posY -= Math.cos(angle) * speed;
+      return;
+    }
 
-    x = Math.sin(angle) * speed;
-    y = Math.cos(angle) * speed;
-
-    current = back ? current.subtract(x, y) : current.add(x, y);
+    posX += Math.sin(angle) * speed;
+    posY += Math.cos(angle) * speed;
   }
 
   public static double getHue()
@@ -60,21 +59,18 @@ public class Dot
     return brightness;
   }
 
-  public Point2D getCurrent()
-  {
-    return current;
-  }
-
   public double getOpacity()
   {
     return opacity;
   }
 
-  public Point2D getPointFromCenter(double rad, double dist)
+  public double getPosX()
   {
-    return current.add(
-      dist*Math.cos(rad),
-      dist*Math.sin(rad)
-    );
+    return posX;
+  }
+
+  public double getPosY()
+  {
+    return posY;
   }
 }

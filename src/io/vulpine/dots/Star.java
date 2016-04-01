@@ -52,40 +52,36 @@ public class Star extends Dot
 
   public void drawStar(GraphicsContext gc)
   {
-    final double cx, cy;
     final double[] x, y;
     final Color color;
-
-    cx = current.getX();
-    cy = current.getY();
 
     color = Color.hsb(hue, saturation, brightness);
     gc.setFill(color);
     gc.setStroke(color);
 
     x = new double[] {
-      cos(OUTER_TOP_CENTER + rotation) * outerDistance + cx,
-      cos(INNER_TOP_RIGHT + rotation) * innerDistance + cx,
-      cos(OUTER_TOP_RIGHT + rotation) * outerDistance + cx,
-      cos(INNER_BOTTOM_RIGHT + rotation) * innerDistance + cx,
-      cos(OUTER_BOTTOM_RIGHT + rotation) * outerDistance + cx,
-      cos(INNER_BOTTOM_CENTER + rotation) * innerDistance + cx,
-      cos(OUTER_BOTTOM_LEFT + rotation) * outerDistance + cx,
-      cos(INNER_BOTTOM_LEFT + rotation) * innerDistance + cx,
-      cos(OUTER_TOP_LEFT + rotation) * outerDistance + cx,
-      cos(INNER_TOP_LEFT + rotation) * innerDistance + cx
+      cos(OUTER_TOP_CENTER + rotation) * outerDistance + posX,
+      cos(INNER_TOP_RIGHT + rotation) * innerDistance + posX,
+      cos(OUTER_TOP_RIGHT + rotation) * outerDistance + posX,
+      cos(INNER_BOTTOM_RIGHT + rotation) * innerDistance + posX,
+      cos(OUTER_BOTTOM_RIGHT + rotation) * outerDistance + posX,
+      cos(INNER_BOTTOM_CENTER + rotation) * innerDistance + posX,
+      cos(OUTER_BOTTOM_LEFT + rotation) * outerDistance + posX,
+      cos(INNER_BOTTOM_LEFT + rotation) * innerDistance + posX,
+      cos(OUTER_TOP_LEFT + rotation) * outerDistance + posX,
+      cos(INNER_TOP_LEFT + rotation) * innerDistance + posX
     };
     y = new double[] {
-      sin(OUTER_TOP_CENTER + rotation) * outerDistance + cy,
-      sin(INNER_TOP_RIGHT + rotation) * innerDistance + cy,
-      sin(OUTER_TOP_RIGHT + rotation) * outerDistance + cy,
-      sin(INNER_BOTTOM_RIGHT + rotation) * innerDistance + cy,
-      sin(OUTER_BOTTOM_RIGHT + rotation) * outerDistance + cy,
-      sin(INNER_BOTTOM_CENTER + rotation) * innerDistance + cy,
-      sin(OUTER_BOTTOM_LEFT + rotation) * outerDistance + cy,
-      sin(INNER_BOTTOM_LEFT + rotation) * innerDistance + cy,
-      sin(OUTER_TOP_LEFT + rotation) * outerDistance + cy,
-      sin(INNER_TOP_LEFT + rotation) * innerDistance + cy
+      sin(OUTER_TOP_CENTER + rotation) * outerDistance + posY,
+      sin(INNER_TOP_RIGHT + rotation) * innerDistance + posY,
+      sin(OUTER_TOP_RIGHT + rotation) * outerDistance + posY,
+      sin(INNER_BOTTOM_RIGHT + rotation) * innerDistance + posY,
+      sin(OUTER_BOTTOM_RIGHT + rotation) * outerDistance + posY,
+      sin(INNER_BOTTOM_CENTER + rotation) * innerDistance + posY,
+      sin(OUTER_BOTTOM_LEFT + rotation) * outerDistance + posY,
+      sin(INNER_BOTTOM_LEFT + rotation) * innerDistance + posY,
+      sin(OUTER_TOP_LEFT + rotation) * outerDistance + posY,
+      sin(INNER_TOP_LEFT + rotation) * innerDistance + posY
     };
 
     gc.fillPolygon(x, y, 10);

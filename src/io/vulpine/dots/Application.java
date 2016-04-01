@@ -1,7 +1,6 @@
 package io.vulpine.dots;
 
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -9,6 +8,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import static java.lang.Math.sqrt;
 
 public class Application extends javafx.application.Application
 {
@@ -69,53 +70,40 @@ public class Application extends javafx.application.Application
 
         // Position
         for (int i = 0; i < DOT_COUNT; i++) {
-
-          final Point2D cur;
           final double  x, y;
-
           stars[i].step();
-          cur = stars[i].getCurrent();
 
-          x = cur.getX();
-          y = cur.getY();
+          x = stars[i].getPosX();
+          y = stars[i].getPosY();
 
-          if (x > MAX_X || x < 0 || y > MAX_Y || y < 0) {
-            stars[i] = new Star();
-          }
+          if (x > MAX_X || x < 0 || y > MAX_Y || y < 0) stars[i] = new Star();
         }
 
         // Render
         for (Star d : stars) {
-          final Point2D cur;
-          final double  cx, cy;
+          final double cx, cy;
           int connections = 0;
 
           con1.setGlobalAlpha(d.getOpacity());
 
-          cur = d.getCurrent();
-          cx = cur.getX();
-          cy = cur.getY();
+          cx = d.getPosX();
+          cy = d.getPosY();
 
           for (final Star e : stars) {
-            final Point2D sub;
             final double  sx, sy;
 
-            sub = e.getCurrent();
-            sx = sub.getX();
-            sy = sub.getY();
-
-            if (cur.distance(sub) <= MAX_LINE_LENGTH) {
+            sx = e.getPosX();
+            sy = e.getPosY();
+            if (sqrt((cx-sx)*(cx-sx)+(cy-sy)*(cy-sy)) <= MAX_LINE_LENGTH) {
               con1.strokeLine(cx, cy, sx, sy);
               connections++;
               if (connections >=  MAX_CONNECTIONS) break;
             }
           }
-
           d.drawStar(con1);
         }
       }
     };
-
     timer.start();
   }
 }
