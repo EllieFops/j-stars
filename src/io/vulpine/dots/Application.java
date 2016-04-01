@@ -10,8 +10,6 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static java.lang.Math.abs;
-
 public class Application extends javafx.application.Application
 {
   public static final int MAX_X           = 1920;
@@ -64,8 +62,6 @@ public class Application extends javafx.application.Application
       public void handle( final long now )
       {
         con1.clearRect(0, 0, MAX_X, MAX_Y);
-
-        Star.stepColor();
 
         con2.setFill(Color.hsb(Star.getHue()+180, Star.getSaturation(), Star.getBrightness()));
 

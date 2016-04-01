@@ -45,12 +45,6 @@ public class Dot
     current = back ? current.subtract(x, y) : current.add(x, y);
   }
 
-  public static void stepColor()
-  {
-    //hue += mod;
-    if (hue >= 360) hue = 0;
-  }
-
   public static double getHue()
   {
     return hue;
