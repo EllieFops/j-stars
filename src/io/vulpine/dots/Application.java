@@ -18,7 +18,6 @@ public class Application extends javafx.application.Application
   public static final int MAX_LINE_LENGTH = 150;
   public static final int MAX_CONNECTIONS = 4;
 
-  public static final int DOT_WIDTH = 3;
 
   public static void main( String[] args )
   {
@@ -29,34 +28,34 @@ public class Application extends javafx.application.Application
   public void start( final Stage stage ) throws Exception
   {
     final Canvas          canvas1, canvas2;
-    final Star[]           dots;
+    final Star[]           stars;
     final GraphicsContext gc;
     final Group           g;
     final Scene           s;
     final AnimationTimer timer;
 
-    stage.setTitle("Dots");
+    stage.setTitle("Stars");
 
-    dots = new Star[DOT_COUNT];
+    stars   = new Star[DOT_COUNT];
     canvas1 = new Canvas(MAX_X, MAX_Y);
     canvas2 = new Canvas(MAX_X, MAX_Y);
-    gc = canvas1.getGraphicsContext2D();
+    gc      = canvas1.getGraphicsContext2D();
+
     gc.setGlobalBlendMode(BlendMode.SRC_OVER);
     canvas2.getGraphicsContext2D().setFill(Color.BLACK);
     canvas2.getGraphicsContext2D().fillRect(0, 0, MAX_X, MAX_Y);
+
     g = new Group(canvas2);
     g.getChildren().add(canvas1);
+
     s = new Scene(g);
 
     stage.setWidth(800);
     stage.setHeight(600);
-
     stage.setScene(s);
     stage.show();
 
-    for (int i = 0; i < DOT_COUNT; i++) {
-      dots[i] = new Star();
-    }
+    for (int i = 0; i < DOT_COUNT; i++) stars[i] = new Star();
 
     timer = new AnimationTimer() {
 
@@ -67,22 +66,23 @@ public class Application extends javafx.application.Application
 
         // Position
         for (int i = 0; i < DOT_COUNT; i++) {
+
           final Point2D cur;
           final double  x, y;
 
-          dots[i].step();
-          cur = dots[i].getCurrent();
+          stars[i].step();
+          cur = stars[i].getCurrent();
 
           x = cur.getX();
           y = cur.getY();
 
           if (x > MAX_X || x < 0 || y > MAX_Y || y < 0) {
-            dots[i] = new Star();
+            stars[i] = new Star();
           }
         }
 
         // Render
-        for (Star d : dots) {
+        for (Star d : stars) {
           final Point2D cur;
           final double  cx, cy;
           int connections = 0;
@@ -95,7 +95,7 @@ public class Application extends javafx.application.Application
           cy = cur.getY();
 
           gc.setStroke(Color.DARKRED);
-          for (final Star e : dots) {
+          for (final Star e : stars) {
             final Point2D sub;
             final double  sx, sy;
 
